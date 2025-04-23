@@ -22,7 +22,6 @@ export async function GET() {
     }
 }
 
-
 // POST /api/admin/users
 export async function POST(req: Request) {
     await connectDB();
@@ -87,5 +86,46 @@ export async function DELETE(req: Request) {
     } catch (error) {
         console.error('DELETE /users error:', error);
         return NextResponse.json({ message: 'Failed to delete user' }, { status: 500 });
+    }
+}
+
+// PUT /api/admin/users
+export async function PUT(req: Request) {
+    await connectDB();
+
+    try {
+        const body = await req.json();
+        const { _id, email, name, password } = body;
+
+        if (!_id) {
+            return NextResponse.json({ message: 'User ID is required' }, { status: 400 });
+        }
+
+        const updateData: any = {};
+        if (email) updateData.email = email.toLowerCase();
+        if (name) updateData.name = name;
+        if (password) updateData.password = await bcrypt.hash(password, 10);
+        console.log("Updating User payload:", updateData);
+
+        const updatedUser = await User.findByIdAndUpdate(_id, updateData, { new: true });
+        console.log("Updated User:", updatedUser);
+
+        if (!updatedUser) {
+            return NextResponse.json({ message: 'User not found' }, { status: 404 });
+        }
+
+        return NextResponse.json(
+            {
+                id: updatedUser._id,
+                email: updatedUser.email,
+                name: updatedUser.name,
+                role: updatedUser.role,
+                createdAt: updatedUser.createdAt,
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error('PUT /users error:', error);
+        return NextResponse.json({ message: 'Failed to update user' }, { status: 500 });
     }
 }

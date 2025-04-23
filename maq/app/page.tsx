@@ -14,6 +14,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [companyName, setCompanyName] = useState('');
+  const [logo, setLogo] = useState('');
+
 
   useEffect(() => {
     const token = Cookies.get('session_token');
@@ -30,6 +33,25 @@ export default function Home() {
       setCheckingAuth(false);
     }
   }, [router]);
+
+  useEffect(() => {
+    const fetchLatestAssignment = async () => {
+      try {
+        const res = await axios.get('/api/admin/assignments/latest');
+        if (res.data) {
+          console.log("Assignment fetched successfully", res.data);
+
+          const { companyName, logo } = res.data;
+          setCompanyName(companyName);
+          setLogo(logo);
+        }
+      } catch (err) {
+        console.error('Error fetching latest assignment', err);
+      }
+    };
+
+    fetchLatestAssignment();
+  }, []);
 
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -80,17 +102,23 @@ export default function Home() {
     return null; // or a spinner, skeleton, etc.
   }
 
+  console.log(companyName, logo);
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-gray-800 bg-slate-50">
       {/* Header */}
       <header className="bg-white h-[10vh] border-b shadow-sm px-6 py-4 flex flex-col md:flex-row justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-            Logo
+        <div className="flex gap-4">
+          <div className="w-12 h-12 bg-emerald-600 rounded-full overflow-hidden flex items-center justify-center">
+            {logo ? (
+              <img src={logo} alt="Logo" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-white font-bold text-xl">?</span>
+            )}
           </div>
           <div>
             <h1 className="text-blue-900 font-bold text-lg">
-              [CONDUCTOR INSTITUTE]
+              {companyName || "[CONDUCTOR INSTITUTE]"}
             </h1>
             <p className="text-emerald-600 text-sm -mt-1">
               Excellence in Assessment
@@ -102,7 +130,7 @@ export default function Home() {
 
       {/* System Info */}
       <div className="bg-emerald-600 h-[4vh] text-white text-sm px-6 py-2">
-        <strong>System Name : C0001</strong> - Contact Invigilator if the Name
+        <strong>System :</strong> - Contact Invigilator if the Name
         and Photograph displayed on the screen is not yours
       </div>
 
@@ -118,32 +146,6 @@ export default function Home() {
             <LogIn className="w-5 h-5" />
             <span>Login Portal</span>
           </h2>
-
-          {/* Role Toggle */}
-          {/* <div className="flex mb-4 gap-2">
-            <button
-              type="button"
-              onClick={() => setRole("user")}
-              className={`flex-1 py-2 rounded text-sm font-medium flex items-center justify-center gap-1 ${role === "user"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700"
-                }`}
-            >
-              <User size={16} />
-              User
-            </button>
-            <button
-              type="button"
-              onClick={() => setRole("admin")}
-              className={`flex-1 py-2 rounded text-sm font-medium flex items-center justify-center gap-1 ${role === "admin"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700"
-                }`}
-            >
-              <ShieldCheck size={16} />
-              Admin
-            </button>
-          </div> */}
 
           {/* Username */}
           <div className="mb-3">
@@ -181,7 +183,7 @@ export default function Home() {
             className={`w-full ${loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
               } text-white py-2 rounded text-sm font-semibold transition`}
           >
-            {loading ? "Logging in..." : `LOGIN AS ${role.toUpperCase()}`}
+            {loading ? "Logging in..." : `LOGIN`}
           </button>
 
           <p className="text-gray-500 text-xs text-center mt-2">

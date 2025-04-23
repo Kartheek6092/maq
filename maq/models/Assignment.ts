@@ -9,6 +9,7 @@ const assignmentSchema = new mongoose.Schema({
     durationMinutes: { type: Number, required: true },
     questionIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }],
     logo: { type: String, required: false },
+    companyName: { type: String, required: true },
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     createdAt: { type: Date, default: Date.now },
     marks: { type: Number, default: 1 },

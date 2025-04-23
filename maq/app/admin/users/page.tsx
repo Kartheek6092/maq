@@ -16,7 +16,6 @@ const handleCopy = (email: string, password?: string, name?: string) => {
         .catch(() => alert('Failed to copy!'));
 };
 
-
 export default function AdminUserManager() {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -25,7 +24,7 @@ export default function AdminUserManager() {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
     const [createdUser, setCreatedUser] = useState<{ email: string; name?: string; password: string } | null>(null);
-
+    const [editingUser, setEditingUser] = useState<User | null>(null); // State for editing user
 
     // Fetch all existing users
     const fetchUsers = async () => {
@@ -42,37 +41,6 @@ export default function AdminUserManager() {
             console.error('Error fetching users', error);
         }
     };
-
-    const handleSendEmail = async (user: User) => {
-        if (!user.email || !user.password) {
-            alert("Missing email or password for user.");
-            return;
-        }
-
-        try {
-            const res = await fetch('/api/admin/send-credentials', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: user.email,
-                    name: user.name,
-                    password: user.password,
-                }),
-            });
-
-            const result = await res.json();
-
-            if (res.ok) {
-                alert(`✅ Credentials sent to ${user.email}`);
-            } else {
-                alert(`❌ ${result.message || 'Failed to send email'}`);
-            }
-        } catch (error) {
-            console.error('Send email error:', error);
-            alert('Something went wrong while sending email.');
-        }
-    };
-
 
     useEffect(() => {
         fetchUsers();
@@ -146,11 +114,40 @@ export default function AdminUserManager() {
         }
     };
 
+    const handleEditUser = (user: User) => {
+        setEditingUser(user); // Set the user to be edited
+    };
+
+    const handleUpdateUser = async () => {
+        if (!editingUser) return;
+
+        try {
+            const res = await fetch(`/api/admin/users`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(editingUser),
+            });
+
+            if (res.ok) {
+                const result = await res.json();
+                console.log("result", result);
+
+                alert('✅ User updated successfully');
+                setEditingUser(null); // Close the edit form
+                await fetchUsers(); // Refresh the user list
+            } else {
+                const result = await res.json();
+                alert(`❌ ${result.message || 'Failed to update user'}`);
+            }
+        } catch (error) {
+            console.error('Error updating user:', error);
+            alert('Something went wrong while updating the user.');
+        }
+    };
 
     const filteredUsers = users.filter((user) =>
         user.email.toLowerCase().includes(search.toLowerCase())
     );
-    console.log('users', users);
 
     return (
         <div className="w-full h-screen py-2 px-40 mx-auto gap-4 flex flex-col overflow-auto ">
@@ -197,6 +194,56 @@ export default function AdminUserManager() {
                 </div>
             </div>
 
+            {/* Edit User Section */}
+            {editingUser && (
+                <div className="w-full h-[35%] p-4 border rounded shadow-sm ">
+                    <h2 className="text-xl font-semibold mb-4">Edit User</h2>
+                    <div className="space-y-3">
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            value={editingUser.name || ''}
+                            onChange={(e) =>
+                                setEditingUser({ ...editingUser, name: e.target.value })
+                            }
+                            className="w-full border px-3 py-2 rounded"
+                        />
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={editingUser.email}
+                            onChange={(e) =>
+                                setEditingUser({ ...editingUser, email: e.target.value })
+                            }
+                            className="w-full border px-3 py-2 rounded"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Password"
+                            value={editingUser.password || ''}
+                            onChange={(e) =>
+                                setEditingUser({ ...editingUser, password: e.target.value })
+                            }
+                            className="w-full border px-3 py-2 rounded"
+                        />
+                        <div className="flex gap-2">
+                            <button
+                                onClick={handleUpdateUser}
+                                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                            >
+                                Update User
+                            </button>
+                            <button
+                                onClick={() => setEditingUser(null)}
+                                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* User List Section */}
             <div className="w-full h-[100%] border rounded shadow-sm flex flex-col ">
                 <h2 className="text-xl text-center font-semibold mb-3 px-4 py-2">Existing Users</h2>
@@ -223,10 +270,10 @@ export default function AdminUserManager() {
                                     Copy Credentials
                                 </button>
                                 <button
-                                    onClick={() => handleSendEmail(user)}
-                                    className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-2 py-1 rounded"
+                                    onClick={() => handleEditUser(user)}
+                                    className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-2 py-1 rounded"
                                 >
-                                    Send Email
+                                    Edit
                                 </button>
                                 <button
                                     onClick={() => handleDeleteUser(user._id)}
@@ -235,10 +282,8 @@ export default function AdminUserManager() {
                                     Delete
                                 </button>
                             </div>
-
                         </li>
                     ))}
-
                 </ul>
             </div>
         </div>
