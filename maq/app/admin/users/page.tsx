@@ -38,7 +38,7 @@ export default function AdminUserManager() {
                 throw new Error(`Fetch error: ${res.status} ${errorText}`);
             }
         } catch (error) {
-            console.error('Error fetching users', error);
+            console.log('Error fetching users', error);
         }
     };
 
@@ -82,7 +82,7 @@ export default function AdminUserManager() {
                 alert(`❌ ${data.message || 'Failed to create user'}`);
             }
         } catch (error) {
-            console.error('Error creating user:', error);
+            console.log('Error creating user:', error);
             alert('Something went wrong. Please try again.');
         }
 
@@ -109,7 +109,7 @@ export default function AdminUserManager() {
                 alert(`❌ ${result.message || 'Failed to delete user'}`);
             }
         } catch (error) {
-            console.error("Error deleting user:", error);
+            console.log("Error deleting user:", error);
             alert("Something went wrong while deleting the user.");
         }
     };
@@ -140,7 +140,7 @@ export default function AdminUserManager() {
                 alert(`❌ ${result.message || 'Failed to update user'}`);
             }
         } catch (error) {
-            console.error('Error updating user:', error);
+            console.log('Error updating user:', error);
             alert('Something went wrong while updating the user.');
         }
     };

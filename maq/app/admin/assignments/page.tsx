@@ -23,7 +23,7 @@ export default function AssignmentsPage() {
                 const data = await res.json();
                 setAssignments(data);
             } catch (err) {
-                console.error('Failed to fetch assignments', err);
+                console.log('Failed to fetch assignments', err);
             }
         };
 

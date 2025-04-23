@@ -17,7 +17,7 @@ export async function GET() {
 
         return NextResponse.json(users);
     } catch (error) {
-        console.error('GET /users error:', error);
+        console.log('GET /users error:', error);
         return NextResponse.json({ message: 'Failed to fetch users' }, { status: 500 });
     }
 }
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('POST /users error:', error);
+        console.log('POST /users error:', error);
         return NextResponse.json({ message: 'Failed to create user' }, { status: 500 });
     }
 }
@@ -84,7 +84,7 @@ export async function DELETE(req: Request) {
 
         return NextResponse.json({ message: 'User deleted successfully' }, { status: 200 });
     } catch (error) {
-        console.error('DELETE /users error:', error);
+        console.log('DELETE /users error:', error);
         return NextResponse.json({ message: 'Failed to delete user' }, { status: 500 });
     }
 }
@@ -125,7 +125,7 @@ export async function PUT(req: Request) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('PUT /users error:', error);
+        console.log('PUT /users error:', error);
         return NextResponse.json({ message: 'Failed to update user' }, { status: 500 });
     }
 }

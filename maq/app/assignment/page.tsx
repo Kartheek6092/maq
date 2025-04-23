@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-type ResponseStatus = "answered" | "review" | "review-answered" | "skipped" | "";
+type ResponseStatus =
+    | "answered"
+    | "review"
+    | "review-answered"
+    | "skipped"
+    | "";
 type Responses = {
     [questionNumber: number]: {
         selected: number | null;
@@ -11,10 +16,12 @@ type Responses = {
     };
 };
 
+type Option = { text: string; image?: string };
 type Question = {
     id: string;
     question: string;
-    options: string[];
+    image?: string;
+    options: Option[];
 };
 
 export default function MCQPage() {
@@ -22,39 +29,39 @@ export default function MCQPage() {
     const [responses, setResponses] = useState<Responses>({});
     const [timeLeft, setTimeLeft] = useState<number>(120 * 60); // 120 minutes
     const [questions, setQuestions] = useState<Question[]>([]);
-    const [assData, setAssData] = useState(null);
+    const [assData, setAssData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    // const user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user') as string) : null;
-
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storedUser = sessionStorage.getItem('user');
+        if (typeof window !== "undefined") {
+            const storedUser = sessionStorage.getItem("user");
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
             }
         }
     }, []);
 
-    // Fetch assignment and questions
     useEffect(() => {
         const fetchAssignmentAndQuestions = async () => {
             try {
-                // Replace with your actual API endpoints
-                const assignmentRes = await axios.get("/api/admin/assignments/latest"); // returns { questionIds: number[] }
-                setAssData(assignmentRes.data)
+                const assignmentRes = await axios.get("/api/admin/assignments/latest");
+                setAssData(assignmentRes.data);
                 const questionIds = assignmentRes.data.questionIds;
 
-                const questionsRes = await axios.post("/api/admin/questions/ass-questions", { ids: questionIds });
+                const questionsRes = await axios.post(
+                    "/api/admin/questions/ass-questions",
+                    { ids: questionIds }
+                );
                 const fetchedQuestions = questionsRes.data.map((q: any) => ({
                     id: q._id,
                     question: q.text,
-                    options: q.options.map((opt: any) => opt.text), // Assuming options have a `text` field
+                    image: q.image,
+                    options: q.options.map((opt: any) => ({ text: opt.text, image: opt.image })),
                 }));
                 setQuestions(fetchedQuestions);
             } catch (error) {
-                console.error("Error fetching assignment/questions", error);
+                console.log("Error fetching assignment/questions", error);
             } finally {
                 setLoading(false);
             }
@@ -63,17 +70,17 @@ export default function MCQPage() {
         fetchAssignmentAndQuestions();
     }, []);
 
+    console.log(questions)
+
     useEffect(() => {
         if (!assData?.durationMinutes) return;
 
         const now = Date.now();
         const durationInMs = assData.durationMinutes * 60 * 1000;
 
-        // Check if there's already a stored endTime
         let storedEndTime = sessionStorage.getItem("examEndTime");
 
         if (!storedEndTime) {
-            // If no end time stored, set it
             const newEndTime = now + durationInMs;
             sessionStorage.setItem("examEndTime", newEndTime.toString());
             storedEndTime = newEndTime.toString();
@@ -83,14 +90,17 @@ export default function MCQPage() {
 
         const interval = setInterval(() => {
             const currentTime = Date.now();
-            const timeRemaining = Math.max(0, Math.floor((endTime - currentTime) / 1000)); // in seconds
+            const timeRemaining = Math.max(
+                0,
+                Math.floor((endTime - currentTime) / 1000)
+            );
 
             setTimeLeft(timeRemaining);
 
             if (timeRemaining <= 0) {
                 clearInterval(interval);
                 alert("Time is up! Auto-submitting your test.");
-                // You can auto-submit here if needed
+                // You might want to trigger the submit logic here
             }
         }, 1000);
 
@@ -125,7 +135,8 @@ export default function MCQPage() {
     };
 
     const goToQuestion = (q: number) => setCurrentQuestion(q);
-    const nextQuestion = () => setCurrentQuestion((q) => Math.min(q + 1, questions.length));
+    const nextQuestion = () =>
+        setCurrentQuestion((q) => Math.min(q + 1, questions.length));
     const prevQuestion = () => setCurrentQuestion((q) => Math.max(q - 1, 1));
 
     const renderStatusColor = (q: number): string => {
@@ -141,7 +152,6 @@ export default function MCQPage() {
     const current = questions[currentQuestion - 1];
 
     if (loading) return <div className="p-6 text-center">Loading...</div>;
-    //  console.log('user', user);
 
     return (
         <div className="min-h-screen bg-white font-sans text-black">
@@ -149,29 +159,44 @@ export default function MCQPage() {
             <div className="bg-orange-500 text-white flex justify-between px-4 py-2 items-center">
                 <div className="font-bold text-lg">CSIR II CHEMICAL SCIENCE</div>
                 <div className="w-[200px] text-sm">
-                    Candidate Name: <span className="font-semibold">{user ? user?.name : '[Your Name]'}</span>
+                    Candidate Name:{" "}
+                    <span className="font-semibold">
+                        {user ? user?.name : "[Your Name]"}
+                    </span>
                     <br />
-                    Remaining Time: <span className="text-[#010101] font-bold">{formatTime()}</span>
+                    Remaining Time:{" "}
+                    <span className="text-[#010101] font-bold">{formatTime()}</span>
                 </div>
             </div>
 
             <div className="flex flex-col md:flex-row px-20 mt-4 gap-4">
-                {/* Left Section: Question */}
                 <div className="w-full md:w-2/3">
-                    <div className="text-lg font-semibold mb-2">Question {currentQuestion}:</div>
-                    <div className="mb-4">{current?.question}</div>
+                    <div className="text-lg font-semibold mb-2">
+                        Question {currentQuestion}:
+                    </div>
+                    <div className="mb-2">
+                        {current?.question}
+                        {current?.image && (
+                            <img src={current.image} width={80} height={60} alt="question" className="max-w-full h-auto mt-2" />
+                        )}
+                    </div>
 
                     <div className="space-y-2 mb-6">
                         {current?.options?.map((option, idx) => (
-                            <label key={idx} className="flex items-center space-x-2">
-                                <input
-                                    type="radio"
-                                    name="option"
-                                    value={idx}
-                                    checked={responses[currentQuestion]?.selected === idx}
-                                    onChange={() => handleOptionChange(idx)}
-                                />
-                                <span>{`${String.fromCharCode(65 + idx)}) ${option}`}</span>
+                            <label key={idx} className="flex flex-row items-start space-y-1">
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="radio"
+                                        name="option"
+                                        value={idx}
+                                        checked={responses[currentQuestion]?.selected === idx}
+                                        onChange={() => handleOptionChange(idx)}
+                                    />
+                                    <span>{`${String.fromCharCode(65 + idx)}) ${option.text}`}</span>
+                                </div>
+                                {option.image && (
+                                    <img src={option.image} width={60} height={40}  alt={`option-${String.fromCharCode(65 + idx)}`} className="max-w-full h-auto ml-6" />
+                                )}
                             </label>
                         ))}
                     </div>
@@ -231,10 +256,14 @@ export default function MCQPage() {
                                     document.cookie.split(";").forEach((cookie) => {
                                         document.cookie = cookie
                                             .replace(/^ +/, "")
-                                            .replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
+                                            .replace(
+                                                /=.*/,
+                                                "=;expires=" + new Date(0).toUTCString() + ";path=/"
+                                            );
                                     });
                                     // Redirect to home
                                     window.location.href = "/";
+                                    // In a real scenario, you would also send the responses to the server here
                                 }
                             }}
                             className="ml-auto bg-green-600 text-white px-4 py-1"
@@ -248,19 +277,24 @@ export default function MCQPage() {
                 <div className="w-full md:w-1/3">
                     <div className="space-y-1 text-sm mb-2">
                         <div className="flex items-center gap-2">
-                            <span className="w-5 h-5 bg-gray-300 inline-block"></span> Not Visited
+                            <span className="w-5 h-5 bg-gray-300 inline-block"></span> Not
+                            Visited
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="w-5 h-5 bg-red-500 inline-block"></span> Not Answered
+                            <span className="w-5 h-5 bg-red-500 inline-block"></span> Not
+                            Answered
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="w-5 h-5 bg-green-500 inline-block"></span> Answered
+                            <span className="w-5 h-5 bg-green-500 inline-block"></span>{" "}
+                            Answered
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="w-5 h-5 bg-purple-500 inline-block"></span> Marked for Review
+                            <span className="w-5 h-5 bg-purple-500 inline-block"></span>{" "}
+                            Marked for Review
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="w-5 h-5 bg-indigo-600 inline-block"></span> Answered & Marked for Review
+                            <span className="w-5 h-5 bg-indigo-600 inline-block"></span>{" "}
+                            Answered & Marked for Review
                         </div>
                     </div>
 
@@ -269,7 +303,9 @@ export default function MCQPage() {
                             <button
                                 key={i + 1}
                                 onClick={() => goToQuestion(i + 1)}
-                                className={`text-sm w-8 h-8 border text-white ${renderStatusColor(i + 1)}`}
+                                className={`text-sm w-8 h-8 border text-white ${renderStatusColor(
+                                    i + 1
+                                )}`}
                             >
                                 {String(i + 1).padStart(2, "0")}
                             </button>

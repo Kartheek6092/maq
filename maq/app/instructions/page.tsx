@@ -8,7 +8,7 @@ import axios from "axios";
 export default function Instructions() {
     const [consentChecked, setConsentChecked] = useState(false);
     const [companyName, setCompanyName] = useState('');
-    const [assData, setAssData] = useState(null);
+    const [assData, setAssData] = useState<any>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function Instructions() {
                     setCompanyName(companyName);
                 }
             } catch (err) {
-                console.error('Error fetching latest assignment', err);
+                console.log('Error fetching latest assignment', err);
             }
         };
 
@@ -74,9 +74,6 @@ export default function Instructions() {
                     <div className="mb-6 leading-6">
                         <p className="font-bold">General Instructions:</p>
                         <ol className="list-decimal pl-5">
-                            <li>
-                                Total duration of CSIR - CHEMICAL SCIENCE is <b>120 min.</b>
-                            </li>
                             <li>
                                 The clock will be set at the server. The countdown timer in
                                 the top right corner will show remaining time.

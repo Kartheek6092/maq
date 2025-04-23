@@ -101,7 +101,7 @@ export default function AssignmentsPage() {
             }
         } catch (error: any) {
             alert(`Error creating assignment: ${error?.message || 'Unknown error'}`);
-            console.error('Error creating assignment!', error);
+            console.log('Error creating assignment!', error);
         }
     };
 

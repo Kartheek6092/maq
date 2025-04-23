@@ -73,10 +73,10 @@ export default function AssessmentReviewPage() {
         setAssessment(updated);
         setIsEditing(false);
       } else {
-        console.error('Failed to update assignment');
+        console.log('Failed to update assignment');
       }
     } catch (err) {
-      console.error('Error updating assignment:', err);
+      console.log('Error updating assignment:', err);
     }
   };
 
@@ -106,7 +106,7 @@ export default function AssessmentReviewPage() {
         throw new Error(result.error || 'Logo upload failed');
       }
     } catch (err) {
-      console.error('Upload error:', err);
+      console.log('Upload error:', err);
     }
   };
 
@@ -311,7 +311,7 @@ export default function AssessmentReviewPage() {
       </div>
 
 
-      {!isPast && (
+      {isPast && (
         <div className="mt-4 space-x-4">
           {!isEditing ? (
             <button

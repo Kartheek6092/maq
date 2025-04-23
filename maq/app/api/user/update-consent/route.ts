@@ -34,7 +34,7 @@ export async function POST(req: Request) {
             { status: 200 }
         );
     } catch (error) {
-        console.error("Consent update error:", error);
+        console.log("Consent update error:", error);
         return NextResponse.json(
             { message: "Something went wrong" },
             { status: 500 }

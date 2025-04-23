@@ -68,7 +68,7 @@ export async function POST(req) {
             { status: 201 }
         );
     } catch (error) {
-        console.error("Error occurred:", error);
+        console.log("Error occurred:", error);
         return NextResponse.json(
             { message: "Server error", error },
             { status: 500 }
@@ -98,7 +98,7 @@ async function uploadToS3(base64String, folder) {
         await s3.send(command);
         return `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
     } catch (error) {
-        console.error("S3 upload error:", error);
+        console.log("S3 upload error:", error);
         throw new Error("Failed to upload file to S3");
     }
 }

@@ -46,7 +46,7 @@ export default function Home() {
           setLogo(logo);
         }
       } catch (err) {
-        console.error('Error fetching latest assignment', err);
+        console.log('Error fetching latest assignment', err);
       }
     };
 

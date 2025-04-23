@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ url: fileUrl });
     } catch (error: any) {
-        console.error('S3 upload error:', error);
+        console.log('S3 upload error:', error);
         return NextResponse.json({ error: 'Upload failed', details: error.message }, { status: 500 });
     }
 }

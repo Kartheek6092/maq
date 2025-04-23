@@ -11,6 +11,7 @@ export async function POST(req: Request) {
     }
 
     const questions = await Question.find({ _id: { $in: ids } });
+    console.log(questions)
 
     if (!questions || questions.length === 0) {
         return NextResponse.json({ error: 'No questions found for the provided IDs' }, { status: 404 });

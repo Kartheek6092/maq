@@ -30,7 +30,7 @@ export async function GET(req: Request, { params }: Params) {
 
         return NextResponse.json(assignment);
     } catch (err: any) {
-        console.error('Error fetching assignment:', err);
+        console.log('Error fetching assignment:', err);
         return NextResponse.json(
             { error: 'Failed to fetch assignment', details: err.message },
             { status: 500 }
@@ -92,7 +92,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 
         return NextResponse.json(updated);
     } catch (err: any) {
-        console.error('Error updating assignment:', err);
+        console.log('Error updating assignment:', err);
         return NextResponse.json(
             { error: 'Failed to update assignment', details: err.message },
             { status: 500 }

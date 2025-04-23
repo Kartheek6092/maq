@@ -25,7 +25,7 @@ export async function GET() {
             // Add any other fields you want to expose
         });
     } catch (err: any) {
-        console.error('Error fetching latest assignment:', err);
+        console.log('Error fetching latest assignment:', err);
         return NextResponse.json(
             { error: 'Failed to fetch latest assignment', details: err.message },
             { status: 500 }

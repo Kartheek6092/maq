@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ message: 'Result saved successfully', result: resultDoc });
     } catch (err: any) {
-        console.error('Error saving result:', err);
+        console.log('Error saving result:', err);
         return NextResponse.json({ error: 'Failed to save result', details: err.message }, { status: 500 });
     }
 }
@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json(resultDoc);
     } catch (err: any) {
-        console.error('Error fetching results:', err);
+        console.log('Error fetching results:', err);
         return NextResponse.json({ error: 'Failed to fetch results', details: err.message }, { status: 500 });
     }
 }
