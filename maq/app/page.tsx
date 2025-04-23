@@ -78,6 +78,7 @@ export default function Home() {
         if (user.role === "admin") {
           router.push('/admin');
         } else if (user.role === "user") {
+          sessionStorage.setItem("user", JSON.stringify(user));
           router.push('/instructions');
         } else {
           setError('Unknown user role. Please contact support.');
@@ -111,7 +112,11 @@ export default function Home() {
         <div className="flex gap-4">
           <div className="w-12 h-12 bg-emerald-600 rounded-full overflow-hidden flex items-center justify-center">
             {logo ? (
-              <img src={logo} alt="Logo" className="w-full h-full object-cover" />
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-full h-full object-cover"
+              />
             ) : (
               <span className="text-white font-bold text-xl">?</span>
             )}
@@ -127,12 +132,6 @@ export default function Home() {
         </div>
         <div className="text-sm mt-3 md:mt-0 text-right"></div>
       </header>
-
-      {/* System Info */}
-      <div className="bg-emerald-600 h-[4vh] text-white text-sm px-6 py-2">
-        <strong>System :</strong> - Contact Invigilator if the Name
-        and Photograph displayed on the screen is not yours
-      </div>
 
       {/* Background + Login */}
       <form
@@ -194,7 +193,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-white border-t h-[6vh] text-center py-4 text-xs text-gray-500">
-        © 2025 National Testing Agency
+        © 2025 {companyName} Testing Agency
       </footer>
     </div>
   );

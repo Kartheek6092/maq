@@ -60,6 +60,9 @@ export async function POST(req: Request) {
         const res = NextResponse.json({
             message: 'Login successful',
             role: user.role,
+            id: user._id,
+            name: user.name,
+            email: user.email,
         });
 
         res.cookies.set('session_token', 'mock-token', {

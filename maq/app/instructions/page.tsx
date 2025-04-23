@@ -1,39 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
+import axios from "axios";
 
 export default function Instructions() {
     const [consentChecked, setConsentChecked] = useState(false);
+    const [companyName, setCompanyName] = useState('');
+    const [assData, setAssData] = useState(null);
     const router = useRouter();
+
+    useEffect(() => {
+        const fetchLatestAssignment = async () => {
+            try {
+                const res = await axios.get('/api/admin/assignments/latest');
+                if (res.data) {
+                    console.log("Assignment fetched successfully", res.data);
+
+                    const { companyName } = res.data;
+                    setAssData(res.data)
+                    setCompanyName(companyName);
+                }
+            } catch (err) {
+                console.error('Error fetching latest assignment', err);
+            }
+        };
+
+        fetchLatestAssignment();
+    }, []);
 
     const handleProceed = async () => {
         if (!consentChecked) {
             alert("Please accept the instructions to proceed.");
             return;
         }
-
-        try {
-            const res = await fetch("http://localhost:3000/api/user/update-consent", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ assignmentConsent: true }),
-            });
-
-            if (res.ok) {
-                router.push("/assignment"); // Navigate to exam page or next step
-            } else {
-                // console.log("Failed to update consent. Please try again.", res);
-
-                alert("Failed to update consent. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error updating consent:", error);
-            alert("An error occurred. Please try again.");
-        }
+        router.push("/assignment");
     };
 
     return (
@@ -49,7 +51,7 @@ export default function Instructions() {
                         {/* <img src="" alt="NTA" className="h-10" /> */}
                         <div>
                             <h1 className="text-xl font-bold text-blue-900">
-                                [CONDUCTOR INSTITUTE]
+                                {companyName ? companyName : '[CONDUCTOR INSTITUTE]'}
                             </h1>
                             <p className="text-green-600 font-semibold text-sm">
                                 Excellence in Assessment
@@ -76,8 +78,8 @@ export default function Instructions() {
                                 Total duration of CSIR - CHEMICAL SCIENCE is <b>120 min.</b>
                             </li>
                             <li>
-                                The clock will be set at the server. The countdown timer in the
-                                top right corner will show remaining time.
+                                The clock will be set at the server. The countdown timer in
+                                the top right corner will show remaining time.
                             </li>
                             <li>
                                 The Questions Palette will show the status of each question
@@ -96,8 +98,8 @@ export default function Instructions() {
                                         have answered the question.
                                     </li>
                                     <li>
-                                        <span className="inline-block w-4 h-4 bg-purple-700" /> You
-                                        marked it for review without answering.
+                                        <span className="inline-block w-4 h-4 bg-purple-700" />{" "}
+                                        You marked it for review without answering.
                                     </li>
                                     <li>
                                         <span className="inline-block w-4 h-4 bg-purple-700 border-2 border-green-500" />{" "}
@@ -135,7 +137,9 @@ export default function Instructions() {
                     </div>
 
                     <div className="mb-6">
-                        <p className="font-bold underline">Navigating through sections:</p>
+                        <p className="font-bold underline">
+                            Navigating through sections:
+                        </p>
                         <ol className="list-decimal pl-5 leading-6">
                             <li>Sections are shown at the top.</li>
                             <li>After finishing one section, you’ll go to the next.</li>
@@ -144,9 +148,19 @@ export default function Instructions() {
                         </ol>
                     </div>
 
+                    <div className="mb-6">
+                        <p className="font-bold underline">Instruction Content:</p>
+                        <p>{assData?.instructions}</p>
+                    </div>
+
+                    <div className="mb-6">
+                        <p className="font-bold underline">Declaration Content:</p>
+                        <p>{assData?.declarationContent}</p>
+                    </div>
+
                     <p className="text-red-600 font-semibold text-sm mt-6 mb-2">
-                        Please note all questions will appear in your default language. This
-                        language can be changed later.
+                        Please note all questions will appear in your default language.
+                        This language can be changed later.
                     </p>
 
                     <div className="flex items-start mt-4">
@@ -158,8 +172,9 @@ export default function Instructions() {
                         />
                         <p className="text-sm leading-6">
                             I have read and understood the instructions. I declare that I am
-                            not in possession of or wearing any prohibited gadgets. In case of
-                            violation, I agree to be debarred from this test and future exams.
+                            not in possession of or wearing any prohibited gadgets. In case
+                            of violation, I agree to be debarred from this test and future
+                            exams.
                         </p>
                     </div>
 
@@ -175,7 +190,7 @@ export default function Instructions() {
 
                 {/* Footer */}
                 <footer className="text-center text-xs text-gray-600 py-4">
-                    © 2018 National Testing Agency
+                    © 2025 {companyName} Testing Agency
                 </footer>
             </div>
         </div>

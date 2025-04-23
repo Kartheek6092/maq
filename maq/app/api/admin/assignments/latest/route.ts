@@ -14,11 +14,14 @@ export async function GET() {
 
         return NextResponse.json({
             title: latestAssignment.title,
-            companyName: latestAssignment.companyName || 'Conductor Institute',
-            logo: latestAssignment.logo || '',
+            companyName: latestAssignment.companyName || "Conductor Institute",
+            logo: latestAssignment.logo || "",
             startTime: latestAssignment.startTime,
             durationMinutes: latestAssignment.durationMinutes,
-            marks: latestAssignment.marks
+            marks: latestAssignment.marks,
+            questionIds: latestAssignment.questionIds,
+            declarationContent: latestAssignment.declarationContent || "",
+            instructions: latestAssignment.instructions || "",
             // Add any other fields you want to expose
         });
     } catch (err: any) {
