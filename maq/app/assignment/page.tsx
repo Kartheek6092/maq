@@ -37,7 +37,6 @@ export default function MCQPage() {
         }
     }, []);
 
-
     // Fetch assignment and questions
     useEffect(() => {
         const fetchAssignmentAndQuestions = async () => {
@@ -64,28 +63,39 @@ export default function MCQPage() {
         fetchAssignmentAndQuestions();
     }, []);
 
-    // Timer - start when assData is available
     useEffect(() => {
         if (!assData?.durationMinutes) return;
 
-        // Convert duration from minutes to seconds
-        const durationInSeconds = assData.durationMinutes * 60;
-        setTimeLeft(durationInSeconds);
+        const now = Date.now();
+        const durationInMs = assData.durationMinutes * 60 * 1000;
+
+        // Check if there's already a stored endTime
+        let storedEndTime = sessionStorage.getItem("examEndTime");
+
+        if (!storedEndTime) {
+            // If no end time stored, set it
+            const newEndTime = now + durationInMs;
+            sessionStorage.setItem("examEndTime", newEndTime.toString());
+            storedEndTime = newEndTime.toString();
+        }
+
+        const endTime = parseInt(storedEndTime, 10);
 
         const interval = setInterval(() => {
-            setTimeLeft((prev) => {
-                if (prev <= 1) {
-                    clearInterval(interval);
-                    alert("Time is up! Auto-submitting your test.");
-                    return 0;
-                }
-                return prev - 1;
-            });
+            const currentTime = Date.now();
+            const timeRemaining = Math.max(0, Math.floor((endTime - currentTime) / 1000)); // in seconds
+
+            setTimeLeft(timeRemaining);
+
+            if (timeRemaining <= 0) {
+                clearInterval(interval);
+                alert("Time is up! Auto-submitting your test.");
+                // You can auto-submit here if needed
+            }
         }, 1000);
 
         return () => clearInterval(interval);
     }, [assData]);
-
 
     const formatTime = () => {
         const hours = String(Math.floor(timeLeft / 3600)).padStart(2, "0");
