@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 type ResponseStatus =
@@ -32,6 +32,33 @@ export default function MCQPage() {
     const [assData, setAssData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
+    // const videoRef = useRef<HTMLVideoElement | null>(null);
+
+    // useEffect(() => {
+    //     let stream: MediaStream;
+
+    //     const startCamera = async () => {
+    //         try {
+    //             stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    //             const videoElement = document.getElementById("webcam") as HTMLVideoElement;
+    //             if (videoElement) {
+    //                 videoElement.srcObject = stream;
+    //                 videoElement.play();
+    //             }
+    //         } catch (err) {
+    //             console.error("Error accessing webcam:", err);
+    //         }
+    //     };
+
+    //     startCamera();
+
+    //     // Cleanup on unmount
+    //     return () => {
+    //         if (stream) {
+    //             stream.getTracks().forEach((track) => track.stop());
+    //         }
+    //     };
+    // }, []);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -170,7 +197,7 @@ export default function MCQPage() {
             </div>
 
             <div className="flex flex-col md:flex-row px-20 mt-4 gap-4">
-                <div className="w-full md:w-2/3">
+                <div className="w-full md:w-2/3 border-r-2 pr-4 border-[#ccc]">
                     <div className="text-lg font-semibold mb-2">
                         Question {currentQuestion}:
                     </div>
@@ -195,7 +222,7 @@ export default function MCQPage() {
                                     <span>{`${String.fromCharCode(65 + idx)}) ${option.text}`}</span>
                                 </div>
                                 {option.image && (
-                                    <img src={option.image} width={60} height={40}  alt={`option-${String.fromCharCode(65 + idx)}`} className="max-w-full h-auto ml-6" />
+                                    <img src={option.image} width={60} height={40} alt={`option-${String.fromCharCode(65 + idx)}`} className="max-w-full h-auto ml-6" />
                                 )}
                             </label>
                         ))}
@@ -275,6 +302,17 @@ export default function MCQPage() {
 
                 {/* Right Section: Palette */}
                 <div className="w-full md:w-1/3">
+                    {/* <div className="absolute top-20 right-10 z-50">
+                        <video
+                            ref={videoRef}
+                            id="webcam"
+                            autoPlay
+                            muted
+                            playsInline
+                            className="w-40 h-28 border-2 border-black rounded-md"
+                        />
+                    </div> */}
+
                     <div className="space-y-1 text-sm mb-2">
                         <div className="flex items-center gap-2">
                             <span className="w-5 h-5 bg-gray-300 inline-block"></span> Not

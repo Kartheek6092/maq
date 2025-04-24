@@ -31,11 +31,7 @@ export default function Instructions() {
     }, []);
 
     const handleProceed = async () => {
-        if (!consentChecked) {
-            alert("Please accept the instructions to proceed.");
-            return;
-        }
-        router.push("/assignment");
+        router.push("/declaration");
     };
 
     return (
@@ -150,17 +146,12 @@ export default function Instructions() {
                         <p>{assData?.instructions}</p>
                     </div>
 
-                    <div className="mb-6">
-                        <p className="font-bold underline">Declaration Content:</p>
-                        <p>{assData?.declarationContent}</p>
-                    </div>
-
                     <p className="text-red-600 font-semibold text-sm mt-6 mb-2">
                         Please note all questions will appear in your default language.
                         This language can be changed later.
                     </p>
 
-                    <div className="flex items-start mt-4">
+                    {/* <div className="flex items-start mt-4">
                         <input
                             type="checkbox"
                             checked={consentChecked}
@@ -173,7 +164,7 @@ export default function Instructions() {
                             of violation, I agree to be debarred from this test and future
                             exams.
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="flex justify-center mt-6">
                         <button
