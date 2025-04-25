@@ -33,34 +33,35 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     }, 1000);
   };
   return (
-    <div className="flex w-full min-h-screen m-0 p-0">
-      <aside className="w-[15vw] bg-gray-800 p-4 flex flex-col justify-between">
-        <div>
-          <h2 className="text-xl font-bold mb-6 text-white">Admin Panel</h2>
-          <nav className="space-y-2">
+    <div className="flex flex-col w-full min-h-screen m-0 p-0">
+      <aside className="w-full h-1/9 bg-gray-800 py-2 px-8 flex justify-between items-center">
+        <h2 className="text-xl font-bold text-white m-0">Admin Panel</h2>
+        <div className="flex items-center gap-2">
             {navOptions.map((option) => {
               const isActive = pathname === option.href;
               return (
-                <Link key={option.name} href={option.href} className="block w-full">
+                <Link
+                  key={option.name}
+                  href={option.href}
+                  className="block w-full"
+                >
                   <span
-                    className={`flex items-center gap-3 rounded-md w-full py-2 px-4 text-sm font-medium transition-colors ${
-                      isActive
-                        ? 'bg-white text-purple-700'
-                        : 'text-white hover:bg-white hover:text-black'
-                    }`}
+                    className={`flex items-center gap-3 rounded-md w-full py-2 px-4 text-sm font-medium transition-colors ${isActive
+                        ? "bg-white text-purple-700"
+                        : "text-white hover:bg-white hover:text-black"
+                      }`}
                   >
-                    {renderIcons(option.icon, 20, 'inherit')}
-                    {option.name}
+                    {renderIcons(option.icon, 20, "inherit")}
+                    {/* {option.name} */}
                   </span>
                 </Link>
               );
             })}
-          </nav>
         </div>
 
         <button
           onClick={handleLogout}
-          className="mt-10 flex items-center gap-2 text-white hover:text-red-500 transition-colors"
+          className=" flex items-center gap-2 text-white hover:text-red-500 transition-colors"
         >
           {isLoggingOut ? (
             <>
@@ -76,7 +77,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </button>
       </aside>
 
-      <main className="flex-1 w-[83vw] h-full overflow-y-auto bg-black p-6">{children}</main>
+      <main className="flex-1 w-[83vw] h-full overflow-y-auto bg-black p-6">
+        {children}
+      </main>
     </div>
   );
 }

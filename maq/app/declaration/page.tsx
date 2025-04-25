@@ -8,16 +8,17 @@ import axios from "axios";
 export default function Instructions() {
     const [companyName, setCompanyName] = useState("");
     const [assData, setAssData] = useState<any>(null);
+    const [isAccepted, setIsAccepted] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-          const isCheck = localStorage.getItem('check');
-          if (isCheck !== 'true') {
-            router.push('/');
-          }
+            const isCheck = localStorage.getItem('check');
+            if (isCheck !== 'true') {
+                router.push('/');
+            }
         }
-      }, [router]);
+    }, [router]);
 
     useEffect(() => {
         const fetchLatestAssignment = async () => {
@@ -39,19 +40,31 @@ export default function Instructions() {
     }, []);
 
     const handleProceed = async () => {
-        router.push("/assignment");
+        if (isAccepted) {
+            router.push("/assignment");
+        } else {
+            alert("Please accept the terms and conditions before proceeding");
+        }
     };
 
     return (
-        <div className="min-h-screen overflow-x-hidden w-full bg-gray-50 text-gray-800 font-sans flex flex-col">
+        <div className="min-h-screen overflow-x-hidden w-full bg-white text-gray-800 font-sans flex flex-col">
             <Head>
                 <title>General Instructions - {companyName || "NTA"}</title>
             </Head>
 
             {/* Header */}
-            <header className="bg-white border-b shadow-sm py-4 px-4 sm:px-6">
+            <header className="bg-white py-4 px-4 sm:px-6">
                 <div className="mx-auto  flex justify-between items-center">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-end w-full gap-3">
+                        <div>
+                            <h1 className="text-lg font-bold text-blue-700 text-right truncate">
+                                {companyName ? companyName : "[CONDUCTOR INSTITUTE]"}
+                            </h1>
+                            <p className="text-green-500 font-semibold text-right text-sm -mt-1">
+                                Excellence in Assessment
+                            </p>
+                        </div>
                         {assData?.logo ? (
                             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 rounded-full overflow-hidden flex items-center justify-center">
                                 <img
@@ -66,14 +79,6 @@ export default function Instructions() {
                                 <span className="text-gray-600 font-bold text-lg sm:text-xl">?</span>
                             </div>
                         )}
-                        <div>
-                            <h1 className="text-lg font-bold text-blue-700 truncate">
-                                {companyName ? companyName : "[CONDUCTOR INSTITUTE]"}
-                            </h1>
-                            <p className="text-green-500 font-semibold text-sm -mt-1">
-                                Excellence in Assessment
-                            </p>
-                        </div>
                     </div>
                     <div className="text-sm text-right"></div>
                 </div>
@@ -103,7 +108,16 @@ export default function Instructions() {
             </footer>
 
             {/* Proceed Button (Fixed at the bottom) */}
-            <div className="fixed bottom-[10%] left-0 w-full py-3 px-4 sm:px-6">
+            <div className="fixed flex flex-col gap-4 bottom-[10%] left-0 w-full py-3 px-4 sm:px-6">
+                <p className="flex items-center justify-center gap-2">
+                    <input
+                        type="checkbox"
+                        id="checkbox"
+                        onChange={(e) => setIsAccepted(e.target.checked)}
+                    />
+                    I Have read and understood the above instructions and agree to the
+                    terms and conditions.
+                </p>
                 <div className="mx-auto max-w-3xl flex justify-center">
                     <button
                         onClick={handleProceed}

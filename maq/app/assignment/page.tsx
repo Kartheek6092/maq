@@ -16,7 +16,6 @@ type Responses = {
     status: ResponseStatus;
   };
 };
-
 type Option = { text: string; image?: string };
 type Question = {
   id: string;
@@ -158,8 +157,7 @@ export default function MCQPage() {
   };
 
   const goToQuestion = (q: number) => setCurrentQuestion(q);
-  const nextQuestion = () =>
-    setCurrentQuestion((q) => Math.min(q + 1, questions.length));
+  const nextQuestion = () => setCurrentQuestion((q) => Math.min(q + 1, questions.length));
   const prevQuestion = () => setCurrentQuestion((q) => Math.max(q - 1, 1));
 
   const renderStatusColor = (q: number): string => {
@@ -193,9 +191,9 @@ export default function MCQPage() {
   if (loading) return <div className="p-6 text-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans text-gray-800 flex flex-col">
+    <div className="h-screen bg-gray-100 font-sans text-gray-800 flex flex-col">
       {/* Header */}
-      <header className="bg-orange-500 text-white py-4 px-4 sm:px-6 md:px-8 shadow-md">
+      <header className=" text-black py-4 px-4 sm:px-6 md:px-8 ">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             {assData?.logo ? (
@@ -215,12 +213,12 @@ export default function MCQPage() {
               </div>
             )}
             <div>
-              <h1 className="text-lg font-bold text-white truncate">
+              <h1 className="text-lg font-bold truncate">
                 {assData?.companyName
                   ? assData.companyName
                   : "[CONDUCTOR INSTITUTE]"}
               </h1>
-              <p className="text-white font-semibold text-sm -mt-1">
+              <p className=" font-semibold text-sm -mt-1">
                 Excellence in Assessment
               </p>
             </div>
@@ -234,17 +232,17 @@ export default function MCQPage() {
             </div>
             <div>
               Remaining Time:{" "}
-              <span className="text-yellow-300 font-bold">{formatTime()}</span>
+              <span className="text-[#FBA834] font-bold">{formatTime()}</span>
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow overflow-y-auto py-6 px-4 sm:px-6 md:px-8">
-        <div className="container mx-auto lg:grid grid-cols-3 gap-6">
+      <main className="h-[80%] flex-grow overflow-y-auto py-6 px-4 sm:px-6 md:px-8">
+        <div className="h-full container mx-auto lg:grid grid-cols-3 gap-6">
           {/* Question Area */}
-          <div className="col-span-2 bg-white rounded-md shadow-md p-4 sm:p-6">
+          <div className="flex flex-col col-span-2 h-full bg-white rounded-md shadow-md p-4 sm:p-6">
             <div className="text-lg font-semibold mb-4">
               Question {currentQuestion}:
             </div>
@@ -290,7 +288,7 @@ export default function MCQPage() {
                   updateResponse("answered");
                   nextQuestion();
                 }}
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm sm:text-base"
+                className="bg-[#0002A1] text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm sm:text-base"
               >
                 Save & Next
               </button>
@@ -299,9 +297,9 @@ export default function MCQPage() {
                   updateResponse("review-answered");
                   nextQuestion();
                 }}
-                className="bg-yellow-400 text-gray-800 px-4 py-2 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 text-sm sm:text-base"
+                className="bg-[#AFDDFF] text-gray-800 px-4 py-2 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 text-sm sm:text-base"
               >
-                Save & Mark for Review
+                Mark for Review
               </button>
               <button
                 onClick={() =>
@@ -312,9 +310,9 @@ export default function MCQPage() {
                 }
                 className="border border-gray-400 px-4 py-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 text-sm sm:text-base"
               >
-                Clear Response
+                Clear
               </button>
-              <button
+              {/* <button
                 onClick={() => {
                   updateResponse("review");
                   nextQuestion();
@@ -322,9 +320,9 @@ export default function MCQPage() {
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base"
               >
                 Mark for Review & Next
-              </button>
+              </button> */}
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-auto">
               <button
                 onClick={prevQuestion}
                 className="border border-gray-400 px-4 py-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 text-sm sm:text-base"
@@ -345,23 +343,23 @@ export default function MCQPage() {
             <h3 className="font-semibold mb-3">Question Palette</h3>
             <div className="space-y-2 text-sm mb-4">
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 bg-gray-300 inline-block"></span> Not
+                <span className="w-5 h-5 bg-gray-300 inline-block rounded-full"></span> Not
                 Visited
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 bg-red-500 inline-block"></span> Not
+                <span className="w-5 h-5 bg-red-500 inline-block rounded-full"></span> Not
                 Answered
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 bg-green-500 inline-block"></span>{" "}
+                <span className="w-5 h-5 bg-green-500 inline-block rounded-full"></span>{" "}
                 Answered
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 bg-purple-500 inline-block"></span>{" "}
+                <span className="w-5 h-5 bg-purple-500 inline-block rounded-full"></span>{" "}
                 Marked for Review
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 bg-indigo-600 inline-block"></span>{" "}
+                <span className="w-5 h-5 bg-indigo-600 inline-block rounded-full"></span>{" "}
                 Answered & Marked
               </div>
             </div>
@@ -380,7 +378,7 @@ export default function MCQPage() {
             </div>
             <button
               onClick={openSubmitModal}
-              className="w-full mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base"
+              className="w-full mt-4 bg-[#FF6363] text-white px-4 py-2 rounded-md hover:bg-[#4CC9FE] focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base"
             >
               Submit
             </button>
@@ -389,7 +387,7 @@ export default function MCQPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t shadow-sm py-4 px-4 sm:px-6 md:px-8 text-center text-xs text-gray-500">
+      <footer className="bg-white  shadow-sm py-4 px-4 sm:px-6 md:px-8 text-center text-xs text-gray-500">
         <div className="container mx-auto">© 2025 {assData?.companyName}</div>
       </footer>
 
@@ -410,7 +408,7 @@ export default function MCQPage() {
               </button>
               <button
                 onClick={handleSubmit}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 {submitting ? (
                   <span className="animate-spin">Submitting...</span>

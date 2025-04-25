@@ -10,6 +10,7 @@ export default function Instructions() {
   const [assData, setAssData] = useState<any>(null);
   const router = useRouter();
   const [authorized, setAuthorized] = useState(true);
+  const [isReadInstructions, setIsReadInstructions] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,7 +43,11 @@ export default function Instructions() {
   }, []);
 
   const handleProceed = async () => {
-    router.push("/declaration");
+    if (isReadInstructions) {
+      router.push("/declaration");
+    } else {
+      alert("Please read the instructions before proceeding.");
+    }
   };
 
   if (!authorized) {
@@ -56,8 +61,16 @@ export default function Instructions() {
       </Head>
 
       <div className="mx-auto px-4 sm:px-6 lg:px-8 overflow-x-hidden">
-        <div className="flex justify-between items-center py-4 border-b">
-          <div className="flex items-center gap-3">
+        <div className="flex justify-between items-center py-4 ">
+          <div className="w-full flex items-center justify-end gap-3">
+            <div>
+              <h1 className="text-xl font-bold text-right text-blue-900 truncate">
+                {companyName ? companyName : "[CONDUCTOR INSTITUTE]"}
+              </h1>
+              <p className="text-green-600 font-semibold text-sm text-right sm:text-base -mt-1">
+                Excellence in Assessment
+              </p>
+            </div>
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 rounded-full overflow-hidden flex items-center justify-center">
               {assData?.logo ? (
                 <img
@@ -72,24 +85,16 @@ export default function Instructions() {
                 </span>
               )}
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-blue-900 truncate">
-                {companyName ? companyName : "[CONDUCTOR INSTITUTE]"}
-              </h1>
-              <p className="text-green-600 font-semibold text-sm sm:text-base -mt-1">
-                Excellence in Assessment
-              </p>
-            </div>
           </div>
           <div className="text-sm text-right"></div>
         </div>
 
-        <div className="bg-orange-500 text-white text-lg font-bold py-2 px-4 mt-6 rounded-md">
+        {/* <div className="bg-orange-500 text-white text-lg font-bold py-2 px-4 mt-6 rounded-md">
           GENERAL INSTRUCTIONS
-        </div>
+        </div> */}
 
         <div className="py-6 text-[15px] leading-relaxed">
-          <div className="text-center font-bold text-lg mb-4">
+          <div className="text-center font-bold text-lg mb-4 bg-red-500 rounded text-white ">
             Please read the instructions carefully
           </div>
 
@@ -105,23 +110,23 @@ export default function Instructions() {
                 using these symbols:
                 <ol className="list-decimal pl-5 mt-2">
                   <li>
-                    <span className="inline-block w-4 h-4 border" /> You have
-                    not visited the question yet.
+                    <span className="inline-block w-4 h-4 border rounded-full mr-2" />{" "}
+                    You have not visited the question yet.
                   </li>
                   <li>
-                    <span className="inline-block w-4 h-4 bg-red-500" /> You
-                    have not answered the question.
+                    <span className="inline-block w-4 h-4 bg-red-500 rounded-full mr-2" />{" "}
+                    You have not answered the question.
                   </li>
                   <li>
-                    <span className="inline-block w-4 h-4 bg-green-500" /> You
-                    have answered the question.
+                    <span className="inline-block w-4 h-4 bg-green-500 rounded-full mr-2" />{" "}
+                    You have answered the question.
                   </li>
                   <li>
-                    <span className="inline-block w-4 h-4 bg-purple-700" /> You
-                    marked it for review without answering.
+                    <span className="inline-block w-4 h-4 bg-purple-700 rounded-full mr-2" />{" "}
+                    You marked it for review without answering.
                   </li>
                   <li>
-                    <span className="inline-block w-4 h-4 bg-indigo-600" />
+                    <span className="inline-block w-4 h-4 bg-indigo-600 rounded-full mr-2" />
                     Answered & marked for review – will be considered for
                     evaluation.
                   </li>
@@ -159,6 +164,16 @@ export default function Instructions() {
               Please note all questions will appear in english language. Do not
               refresh the page once exam has started.
             </span>
+          </p>
+
+          <p className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="checkbox"
+              onChange={(e) => setIsReadInstructions(e.target.checked)}
+            />
+            I Have read and understood the above instructions and agree to the
+            terms and conditions.
           </p>
 
           <div className="flex justify-center mt-8">

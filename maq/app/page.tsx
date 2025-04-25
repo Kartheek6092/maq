@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { LogIn } from "lucide-react";
+import { RiLoginCircleFill } from "react-icons/ri";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -121,11 +122,27 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-gray-800 bg-blue-950/80 ">
+    <div
+      className="min-h-screen flex flex-col font-sans text-gray-800 bg-white "
+      style={{
+        backgroundImage: `url('/login-bg.jpg')`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+    >
       {/* Header */}
-      <header className=" border-b shadow-sm px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
+      <header className=" px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
         <div className="flex justify-between items-center w-full">
+          <div></div>
           <div className="flex gap-4 float-left items-center">
+            <div>
+              <h1 className="text-white text-right font-bold text-lg truncate">
+                {companyName || "[CONDUCTOR INSTITUTE]"}
+              </h1>
+              <p className="text-green-500 text-sm text-right -mt-1">
+                Excellence in Assessment
+              </p>
+            </div>
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 rounded-full overflow-hidden flex items-center justify-center">
               {logo ? (
                 <img
@@ -140,16 +157,7 @@ export default function Home() {
                 </span>
               )}
             </div>
-            <div>
-              <h1 className="text-blue-900 font-bold text-lg truncate">
-                {companyName || "[CONDUCTOR INSTITUTE]"}
-              </h1>
-              <p className="text-emerald-600 text-sm -mt-1">
-                Excellence in Assessment
-              </p>
-            </div>
           </div>
-          <div></div>
         </div>
       </header>
 
@@ -157,21 +165,20 @@ export default function Home() {
       <form
         onSubmit={handleLogin}
         className="relative h-[80vh] grow bg-cover bg-center py-10 sm:py-20 px-4 flex justify-center items-center"
-        style={{ backgroundImage: `url('/login-bg.jpg')` }} // Example background image
+      // style={{ backgroundImage: `url('/login-bg.jpg')` }} 
       >
-        <div
-          className="absolute inset-0 z-0"
-          aria-hidden="true"
-        />
+        <div className="absolute inset-0 z-0" aria-hidden="true" />
 
-        <div className="relative z-10 bg-white rounded-xl p-6 w-full max-w-md shadow-lg">
+        <div
+          className="relative z-10 flex flex-col justify-between rounded-xl p-6 w-full max-w-2xl h-4/7 shadow-xl bg-white/40  backdrop-blur-sm border border-white/30"
+        >
           <h2 className="text-blue-900 font-bold text-lg mb-4 sm:mb-6 flex items-center space-x-2">
-            <LogIn className="w-4 h-4 sm:w-5 sm:h-5" />
+            <RiLoginCircleFill size={25} className="" />
             <span>Login Portal</span>
           </h2>
 
           {/* Username */}
-          <div className="mb-2 sm:mb-3">
+          <div className="mb-2 sm:mb-3 text-[#000000]">
             <label
               htmlFor="username"
               className="text-xs font-semibold block mb-1"
@@ -183,7 +190,7 @@ export default function Home() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your username"
               aria-label="Username"
               required
@@ -203,7 +210,7 @@ export default function Home() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               aria-label="Password"
               required
@@ -213,7 +220,7 @@ export default function Home() {
           {/* Error Message */}
           {error && (
             <p
-              className="text-red-500 text-xs text-center mb-2"
+              className="text-red-800 bg-red-200 w-fit self-center px-2 text-xs text-center mb-2"
               aria-live="assertive"
             >
               {error}
@@ -232,14 +239,14 @@ export default function Home() {
             {loading ? "Logging in..." : `LOGIN`}
           </button>
 
-          <p className="text-gray-500 text-xs text-center mt-2">
+          <p className="text-gray-700 text-xs text-center mt-2">
             Click Login to proceed
           </p>
         </div>
       </form>
 
       {/* Footer */}
-      <footer className="bg-white border-t h-[6vh] flex items-center justify-center py-2 text-xs text-gray-500">
+      <footer className=" border-t h-[6vh] flex items-center justify-center py-2 text-xs text-gray-500">
         <p>© 2025 {companyName}</p>
       </footer>
     </div>
