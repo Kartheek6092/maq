@@ -5,11 +5,6 @@ import { NextResponse } from 'next/server';
 import { Types } from 'mongoose';
 import { NextRequest } from 'next/server'; // Import NextRequest
 
-interface Params {
-    params: {
-        id: string;
-    };
-}
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) { // Use NextRequest
     try {
@@ -91,7 +86,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
                 }
 
                 return { email, score }; // Return valid entry
-            }).filter(item => item !== null); // Remove null entries
+            }).filter((item: { email: string; score: number } | null) => item !== null); // Remove null entries
 
             console.log('Processed marks array:', marksArray);
         }

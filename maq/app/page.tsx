@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { LogIn } from "lucide-react";
 import { RiLoginCircleFill } from "react-icons/ri";
 
 export default function Home() {
