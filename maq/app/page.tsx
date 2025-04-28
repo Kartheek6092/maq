@@ -123,11 +123,12 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen flex flex-col font-sans text-gray-800 bg-white "
+      className="min-h-screen flex flex-col font-sans text-white bg-white "
       style={{
-        backgroundImage: `url('/login-bg.jpg')`,
+        backgroundImage: `url('/login-bg4.jpg')`,
         backgroundPosition: "center",
         backgroundSize: "cover",
+
       }}
     >
       {/* Header */}
@@ -164,21 +165,18 @@ export default function Home() {
       {/* Background + Login */}
       <form
         onSubmit={handleLogin}
-        className="relative h-[80vh] grow bg-cover bg-center py-10 sm:py-20 px-4 flex justify-center items-center"
-      // style={{ backgroundImage: `url('/login-bg.jpg')` }} 
+        className="relative h-[50vh] grow bg-cover bg-center py-10 sm:py-20 px-4 flex justify-center items-center"
+      // style={{ backgroundImage: `url('/login-bg.jpg')` }}
       >
         <div className="absolute inset-0 z-0" aria-hidden="true" />
-
-        <div
-          className="relative z-10 flex flex-col justify-between rounded-xl p-6 w-full max-w-2xl h-4/7 shadow-xl bg-white/40  backdrop-blur-sm border border-white/30"
-        >
-          <h2 className="text-blue-900 font-bold text-lg mb-4 sm:mb-6 flex items-center space-x-2">
+        <div className="relative z-10 flex flex-col justify-between rounded-xl p-6 w-full max-w-2xl h-[40vh] shadow-xl bg-black/40  backdrop-blur-sm border border-white/30">
+          <h2 className="text-blue-100 font-bold text-lg mb-4 sm:mb-6 flex items-center space-x-2">
             <RiLoginCircleFill size={25} className="" />
             <span>Login Portal</span>
           </h2>
 
           {/* Username */}
-          <div className="mb-2 sm:mb-3 text-[#000000]">
+          <div className="w-9/10 self-center mb-2 sm:mb-3 ">
             <label
               htmlFor="username"
               className="text-xs font-semibold block mb-1"
@@ -190,7 +188,7 @@ export default function Home() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border focus:border-blue-500 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your username"
               aria-label="Username"
               required
@@ -198,7 +196,7 @@ export default function Home() {
           </div>
 
           {/* Password */}
-          <div className="mb-3 sm:mb-4">
+          <div className="w-9/10 self-center mb-3 sm:mb-4">
             <label
               htmlFor="password"
               className="text-xs font-semibold block mb-1"
@@ -210,7 +208,7 @@ export default function Home() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border focus:border-blue-500 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               aria-label="Password"
               required
@@ -231,15 +229,15 @@ export default function Home() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full ${loading
+            className={`w-9/10 self-center  ${loading
               ? "bg-blue-400 cursor-wait"
-              : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
+              : "bg-green-600 hover:bg-green-700 cursor-pointer"
               } text-white py-2 rounded text-sm font-semibold transition`}
           >
             {loading ? "Logging in..." : `LOGIN`}
           </button>
 
-          <p className="text-gray-700 text-xs text-center mt-2">
+          <p className="text-gray-500 text-xs text-center mt-2">
             Click Login to proceed
           </p>
         </div>

@@ -67,62 +67,62 @@ export default function AdminDashboard() {
     if (loading) return <div className="p-6 text-lg">Loading...</div>;
 
     return (
-        <div className="p-6 space-y-8">
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+      <div className="w-full h-full p-6 space-y-8">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
-            <section>
-                <h2 className="text-xl font-semibold mb-3">🟢 Active Assessments</h2>
-                {activeAssessments?.length === 0 ? (
-                    <p>No active assessments.</p>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {activeAssessments?.map((a) => (
-                            <div
-                                key={a._id}
-                                className="p-4 border rounded-xl shadow-sm "
-                                onClick={() => redirect(`/admin/assignments/${a._id}`)}
-                            >
-                                <h3 className="text-lg font-bold">{a.title}</h3>
-                                <p className="text-sm text-gray-600">{a.description}</p>
-                                <p className="text-sm mt-2">
-                                    Start: {formatDate(a.startTime)}
-                                </p>
-                                <p className="text-sm">End: {formatDate(a.endTime)}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </section>
+        <section>
+          <h2 className="text-xl font-semibold mb-3">🟢 Active Assessments</h2>
+          {activeAssessments?.length === 0 ? (
+            <p>No active assessments.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {activeAssessments?.map((a) => (
+                <div
+                  key={a._id}
+                  className="p-4 border border-gray-200 rounded-xl shadow-sm "
+                  onClick={() => redirect(`/admin/assignments/${a._id}`)}
+                >
+                  <h3 className="text-lg font-bold">{a.title}</h3>
+                  <p className="text-sm text-gray-600">{a.description}</p>
+                  <p className="text-sm mt-2">
+                    Start: {formatDate(a.startTime)}
+                  </p>
+                  <p className="text-sm">End: {formatDate(a.endTime)}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
-            <section>
-                <h2 className="text-xl font-semibold mb-3">📁 Past Assessments</h2>
-                {pastAssessments?.length === 0 ? (
-                    <p>No past assessments.</p>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {pastAssessments?.map((a) => (
-                            <div
-                                key={a._id}
-                                onClick={() => redirect(`/admin/assignments/${a._id}`)}
-                                className="p-4 border rounded-xl shadow-sm"
-                            >
-                                <h3 className="text-lg font-bold">{a.title}</h3>
-                                <p className="text-sm text-gray-600">{a.description}</p>
-                                <p className="text-sm mt-2">
-                                    Start: {formatDate(a.startTime)}
-                                </p>
-                                <p className="text-sm">End: {formatDate(a.endTime)}</p>
-                                <button
-                                    onClick={() => router.push(`/admin/assessment/${a._id}`)}
-                                    className="mt-3 bg-gray-700 text-white px-4 py-1.5 rounded hover:bg-gray-800"
-                                >
-                                    Review Results
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </section>
-        </div>
+        <section>
+          <h2 className="text-xl font-semibold mb-3">📁 Past Assessments</h2>
+          {pastAssessments?.length === 0 ? (
+            <p>No past assessments.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {pastAssessments?.map((a) => (
+                <div
+                  key={a._id}
+                  onClick={() => redirect(`/admin/assignments/${a._id}`)}
+                  className="p-4 border border-gray-300 rounded-xl shadow-sm"
+                >
+                  <h3 className="text-lg font-bold">{a.title}</h3>
+                  <p className="text-sm text-gray-600">{a.description}</p>
+                  <p className="text-sm mt-2">
+                    Start: {formatDate(a.startTime)}
+                  </p>
+                  <p className="text-sm">End: {formatDate(a.endTime)}</p>
+                  <button
+                    onClick={() => router.push(`/admin/assessment/${a._id}`)}
+                    className="mt-3 bg-gray-700 text-white px-4 py-1.5 rounded hover:bg-gray-800"
+                  >
+                    Review Results
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
     );
 }

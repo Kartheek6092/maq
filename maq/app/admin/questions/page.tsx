@@ -71,7 +71,7 @@ export default function AdminQuestions() {
   );
 
   return (
-    <div className="px-40 py-4 h-screen overflow-auto">
+    <div className="px-40 py-10 m-0 h-[94vh] overflow-auto">
       <h2 className="text-2xl font-bold mb-4">Manage MCQs</h2>
 
       <div className="mb-6 space-y-2">
@@ -80,7 +80,7 @@ export default function AdminQuestions() {
           placeholder="Enter question"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border border-gray-300 rounded"
         />
         <label className="block mb-2 font-medium">
           Question Image (optional)
@@ -121,7 +121,7 @@ export default function AdminQuestions() {
                 updated[i].text = e.target.value;
                 setOptions(updated);
               }}
-              className="p-2 border rounded w-full sm:w-1/2"
+              className="p-2 border border-gray-300 rounded w-full sm:w-1/2"
             />
 
             <input
@@ -184,12 +184,12 @@ export default function AdminQuestions() {
         placeholder="Search questions..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full p-2 border rounded mb-4"
+        className="w-full p-2 border border-gray-300 rounded mb-4"
       />
 
       <ul className="space-y-4">
         {filteredQuestions.map((q) => (
-          <li key={q._id} className="p-4 rounded shadow shadow-amber-50">
+          <li key={q._id} className="p-4 rounded shadow shadow-[#ccc]">
             <div className="flex justify-between items-center">
               <strong>{q.text}</strong>
               {q.image && (

@@ -121,7 +121,7 @@ export default function Instructions() {
                 <div className="mx-auto max-w-3xl flex justify-center">
                     <button
                         onClick={handleProceed}
-                        className="bg-blue-600 text-white font-medium text-lg px-8 py-3 rounded-md transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
+                        className="bg-green-600 text-white font-medium text-lg px-8 py-3 rounded-md transition-all duration-300 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-auto"
                     >
                         I Accept
                     </button>

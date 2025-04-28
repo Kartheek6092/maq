@@ -72,3 +72,35 @@ export async function GET() {
 
   return NextResponse.json(assignments);
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { id } = await req.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Assignment ID is required" },
+        { status: 400 }
+      );
+    }
+
+    await connectDB();
+
+    const deletedAssignment = await Assignment.findByIdAndDelete(id);
+
+    if (!deletedAssignment) {
+      return NextResponse.json(
+        { error: "Assignment not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: "Assignment deleted successfully" });
+  } catch (err: any) {
+    console.log("Error deleting assignment:", err);
+    return NextResponse.json(
+      { error: "Failed to delete assignment", details: err.message },
+      { status: 500 }
+    );
+  }
+}

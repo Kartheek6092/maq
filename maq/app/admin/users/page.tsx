@@ -150,9 +150,9 @@ export default function AdminUserManager() {
     );
 
     return (
-        <div className="w-full h-screen py-2 px-40 mx-auto gap-4 flex flex-col overflow-auto ">
+        <div className="w-full h-[94vh] py-10 px-40 mx-auto gap-4 flex flex-col overflow-auto ">
             {/* Create User Section */}
-            <div className="w-full h-[35%] p-4 border rounded shadow-sm ">
+            <div className="w-full h-[40%] p-4 border border-gray-300 rounded shadow-sm ">
                 <h2 className="text-xl font-semibold mb-4">Create New User</h2>
                 <div className="space-y-3">
                     <input
@@ -160,14 +160,14 @@ export default function AdminUserManager() {
                         placeholder="Name (optional)"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full border px-3 py-2 rounded"
+                        className="w-full border border-gray-300 px-3 py-2 rounded"
                     />
                     <input
                         type="email"
                         placeholder="Email *"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border px-3 py-2 rounded"
+                        className="w-full border border-gray-300 px-3 py-2 rounded"
                     />
                     <div className="flex gap-2">
                         <input
@@ -175,7 +175,7 @@ export default function AdminUserManager() {
                             placeholder="Password *"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="flex-1 border px-3 py-2 rounded"
+                            className="flex-1 border border-gray-300 px-3 py-2 rounded"
                         />
                         <button
                             onClick={handleGeneratePassword}
@@ -196,7 +196,7 @@ export default function AdminUserManager() {
 
             {/* Edit User Section */}
             {editingUser && (
-                <div className="w-full h-[35%] p-4 border rounded shadow-sm ">
+                <div className="w-full h-[35%] p-4 border border-gray-300 rounded shadow-sm ">
                     <h2 className="text-xl font-semibold mb-4">Edit User</h2>
                     <div className="space-y-3">
                         <input
@@ -206,7 +206,7 @@ export default function AdminUserManager() {
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, name: e.target.value })
                             }
-                            className="w-full border px-3 py-2 rounded"
+                            className="w-full border border-gray-300 px-3 py-2 rounded"
                         />
                         <input
                             type="email"
@@ -215,7 +215,7 @@ export default function AdminUserManager() {
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, email: e.target.value })
                             }
-                            className="w-full border px-3 py-2 rounded"
+                            className="w-full border border-gray-300 px-3 py-2 rounded"
                         />
                         <input
                             type="text"
@@ -224,7 +224,7 @@ export default function AdminUserManager() {
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, password: e.target.value })
                             }
-                            className="w-full border px-3 py-2 rounded"
+                            className="w-full border border-gray-300 px-3 py-2 rounded"
                         />
                         <div className="flex gap-2">
                             <button
@@ -245,19 +245,19 @@ export default function AdminUserManager() {
             )}
 
             {/* User List Section */}
-            <div className="w-full h-[100%] border rounded shadow-sm flex flex-col ">
+            <div className="w-full h-[100%] border  border-gray-300 rounded shadow-sm flex flex-col ">
                 <h2 className="text-xl text-center font-semibold mb-3 px-4 py-2">Existing Users</h2>
                 <input
                     type="text"
                     placeholder="Search by email..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-[90%] self-center mb-3 border px-3 py-2 rounded"
+                    className="w-[90%] self-center mb-3 border border-gray-300 px-3 py-2 rounded"
                 />
                 <ul className="space-y-2 p-4 h-[80%] overflow-auto">
                     {filteredUsers.length === 0 && <li>No users found.</li>}
                     {filteredUsers.map((user) => (
-                        <li key={user._id} className="border-b py-3 text-sm space-y-1">
+                        <li key={user._id} className="border-b  border-gray-300 py-3 text-sm space-y-1">
                             <div><strong>Name:</strong> {user.name || 'N/A'}</div>
                             <div><strong>Email:</strong> {user.email}</div>
                             <div><strong>Password:</strong> {user.password || 'N/A'}</div>

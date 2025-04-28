@@ -117,7 +117,7 @@ export default function AssignmentsPage() {
   };
 
   return (
-    <div className="w-full h-screen px-40 py-6 overflow-auto">
+    <div className="w-full h-[94vh] px-40 py-6 overflow-auto">
       <h2 className="text-2xl font-bold mb-4">Create Assignment</h2>
       <div className="space-y-4 ">
         <div>
@@ -128,7 +128,7 @@ export default function AssignmentsPage() {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
         <div>
@@ -139,7 +139,7 @@ export default function AssignmentsPage() {
             value={description}
             rows={5}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
         <div>
@@ -150,7 +150,7 @@ export default function AssignmentsPage() {
             value={declaration}
             rows={10}
             onChange={(e) => setDeclaration(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
         <div>
@@ -161,7 +161,7 @@ export default function AssignmentsPage() {
             value={instructions}
             rows={10}
             onChange={(e) => setInstructions(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
         <div className="flex gap-4 items-center">
@@ -171,7 +171,7 @@ export default function AssignmentsPage() {
             type="datetime-local"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
-            className="w-fit p-2 border rounded"
+            className="w-fit p-2 border border-gray-300 rounded"
           />
         </div>
         <div>
@@ -181,7 +181,7 @@ export default function AssignmentsPage() {
             placeholder="Duration (in minutes)"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
         <div>
@@ -192,7 +192,7 @@ export default function AssignmentsPage() {
             placeholder="Company Name"
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
         <div>
@@ -204,7 +204,7 @@ export default function AssignmentsPage() {
             type="file"
             accept="image/*"
             onChange={(e) => setLogoFile(e.target.files?.[0] || null)}
-            className="w-fit p-2 border rounded mb-2"
+            className="w-fit p-2 border border-gray-300 rounded mb-2"
           />
           {logoFile && (
             <div className="mt-2">

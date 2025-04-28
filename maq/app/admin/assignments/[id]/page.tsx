@@ -16,13 +16,11 @@ interface Question {
 export default function AssessmentReviewPage() {
   const { id } = useParams();
   const router = useRouter();
-
   const [assessment, setAssessment] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<any>({});
   const [isPast, setIsPast] = useState(false);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
-
   const [allUsers, setAllUsers] = useState([]);
   const [allQuestions, setAllQuestions] = useState([]);
 
@@ -124,10 +122,29 @@ export default function AssessmentReviewPage() {
 
   console.log("assessment:", assessment);
 
-  if (!assessment) return <div className="p-6">Loading assessment...</div>;
+  if (!assessment) {
+    return (
+      <div className="p-6">
+        <div className="relative w-fit font-bold font-mono whitespace-pre text-[30px] leading-[1.2em] h-[1.2em] overflow-hidden">
+          <div className="before:content-['Loading...\\A⌰oading...\\A⌰⍜ading...\\A⌰⍜⏃ding...\\A⌰⍜⏃⎅ing...\\A⌰⍜⏃⎅⟟ng...\\A⌰⍜⏃⎅⟟⋏g...\\A⌰⍜⏃⎅⟟⋏☌...\\A⌰⍜⏃⎅⟟⋏☌⟒..\\A⌰⍜⏃⎅⟟⋏☌⟒⏁.\\A⌰⍜⏃⎅⟟⋏☌⟒⏁⋔'] before:inline-block before:whitespace-pre animate-decode" />
+        </div>
+
+        <style jsx>{`
+          @keyframes decode {
+            100% {
+              transform: translateY(-100%);
+            }
+          }
+          .animate-decode {
+            animation: decode 1s infinite steps(11) alternate;
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full h-screen overflow-auto p-6 space-y-4 ">
+    <div className="w-full h-[94vh] overflow-auto py-6 px-40 spacsty   ">
       <h1 className="text-2xl font-bold mb-2">
         Assessment:{" "}
         {isEditing ? (
@@ -136,56 +153,59 @@ export default function AssessmentReviewPage() {
             name="title"
             value={formData.title || ""}
             onChange={handleChange}
-            className="border px-2 py-1 rounded ml-2"
+            className="border border-gray-300 px-2 py-1 rounded ml-2"
           />
         ) : (
           assessment.title
         )}
       </h1>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Description:</label>
         {isEditing ? (
           <textarea
             name="description"
+            rows={10}
             value={formData.description || ""}
             onChange={handleChange}
-            className="border w-full px-2 py-1 rounded"
+            className="border border-gray-300 w-full px-2 py-1 ml-4 rounded"
           />
         ) : (
-          <p>{assessment.description}</p>
+          <p className="ml-4">{assessment.description}</p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Instructions:</label>
         {isEditing ? (
           <textarea
             name="instructions"
+            rows={10}
             value={formData.instructions || ""}
             onChange={handleChange}
-            className="border w-full px-2 py-1 rounded"
+            className="border border-gray-300 w-full px-2 ml-4 py-1 rounded"
           />
         ) : (
-          <p>{assessment.instructions}</p>
+          <p className="ml-4">{assessment.instructions}</p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Declaration:</label>
         {isEditing ? (
           <textarea
             name="declarationContent"
+            rows={10}
             value={formData.declarationContent || ""}
             onChange={handleChange}
-            className="border w-full px-2 py-1 rounded"
+            className="border border-gray-300 w-full px-2 ml-4 py-1 rounded"
           />
         ) : (
-          <p>{assessment.declarationContent}</p>
+          <p className="ml-4">{assessment.declarationContent}</p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Start Time:</label>
         {isEditing ? (
           <input
@@ -193,14 +213,14 @@ export default function AssessmentReviewPage() {
             name="startTime"
             value={formData.startTime}
             onChange={handleChange}
-            className="border px-2 py-1 rounded"
+            className="border border-gray-300 w-fit px-2 py-1 rounded ml-4"
           />
         ) : (
-          <p>{new Date(assessment.startTime).toLocaleString()}</p>
+          <p className="ml-4">{new Date(assessment.startTime).toLocaleString()}</p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Duration (minutes):</label>
         {isEditing ? (
           <input
@@ -208,14 +228,14 @@ export default function AssessmentReviewPage() {
             name="durationMinutes"
             value={formData.durationMinutes}
             onChange={handleChange}
-            className="border px-2 py-1 rounded"
+            className="border border-gray-300 px-2 py-1 ml-4 rounded"
           />
         ) : (
-          <p>{assessment.durationMinutes} minutes</p>
+          <p className="ml-4">{assessment.durationMinutes} minutes</p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Company Name:</label>
         {isEditing ? (
           <input
@@ -223,14 +243,14 @@ export default function AssessmentReviewPage() {
             name="companyName"
             value={formData.companyName || ""}
             onChange={handleChange}
-            className="border px-2 py-1 rounded w-full"
+            className="border border-gray-300 px-2 py-1 ml-4 rounded w-full"
           />
         ) : (
-          <p>{assessment.companyName || "N/A"}</p>
+          <p className="ml-4">{assessment.companyName || "N/A"}</p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block mb-2">Logo:</label>
         {isEditing ? (
           <div className="space-y-2">
@@ -254,14 +274,14 @@ export default function AssessmentReviewPage() {
           <img
             src={assessment.logo}
             alt="Assessment Logo"
-            className="h-24 object-contain border rounded"
+            className="h-24 w-fit ml-4 object-contain border rounded"
           />
         ) : (
-          <p>No logo provided</p>
+          <p className="ml-4">No logo provided</p>
         )}
       </div>
 
-      <div className="text-white">
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Users:</label>
         {isEditing ? (
           <ClientSelect
@@ -294,14 +314,14 @@ export default function AssessmentReviewPage() {
           <ul className="list-disc pl-6">
             {assessment.users.map((user: any, index: number) => (
               <li key={index}>
-                {typeof user === "string" ? user : user.email}
+                {typeof user === "string" ? user : user.name}
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-semibold block">Questions:</label>
         {isEditing ? (
           <ClientSelect
@@ -373,7 +393,7 @@ export default function AssessmentReviewPage() {
                   <label className="w-48">{email}</label>
                   <input
                     type="number"
-                    className="border px-2 py-1 rounded w-32"
+                    className="border border-gray-300 px-2 py-1 rounded w-32"
                     placeholder="Enter marks"
                     value={formData.marks?.[index]?.score ?? mark} // Use index to track marks as an array
                     onChange={(e) => {

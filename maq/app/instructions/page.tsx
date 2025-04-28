@@ -94,7 +94,7 @@ export default function Instructions() {
         </div> */}
 
         <div className="py-6 text-[15px] leading-relaxed">
-          <div className="text-center font-bold text-lg mb-4 bg-red-500 rounded text-white ">
+          <div className="text-center font-bold text-lg mb-4 bg-orange-900 rounded text-white ">
             Please read the instructions carefully
           </div>
 
@@ -179,7 +179,7 @@ export default function Instructions() {
           <div className="flex justify-center mt-8">
             <button
               onClick={handleProceed}
-              className="bg-blue-600 text-white px-8 py-3 rounded font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-green-600 text-white px-8 py-3 rounded font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               PROCEED
             </button>
